@@ -49,7 +49,7 @@ code{direction:ltr;display:inline-block;background:#152a40;border-radius:7px;pad
 <div><span class="muted">منبع:</span> <b id="source">—</b></div>
 <div><span class="muted">بازبینی بعدی:</span> <b id="next">—</b></div>
 </div>
-<div class="actions"><button id="reload" type="button">↻ بروزرسانی نمایش</button><a class="link" href="./data/dollar.json" id="json-link">مشاهده JSON عمومی</a></div>
+<div class="actions"><button id="reload" type="button">↻ بروزرسانی نمایش</button><a class="link" href="https://github.com/gptyar-web/dolor#api" id="json-link">مستندات API</a></div>
 </section>
 <p class="explain">قیمت‌ها ممکن است در ساعات تعطیلی بازار تغییر نکنند. زمان «بازبینی» با زمان «تغییر واقعی نرخ» متفاوت است. این صفحه قیمت غیرواقعی جایگزین نمی‌کند؛ اگر داده‌ای نرسد وضعیت خطا نشان داده می‌شود.</p>
 <footer>منابع داده: <a href="https://nerkh.jahankhahan.shop/developers" rel="noopener">نرخ‌سنج</a> و در حالت پشتیبان <a href="https://iran-market.github.io/" rel="noopener">Iran Market Data</a>. این پروژه وابسته به آن‌ها نیست و نرخ‌ها صرفاً اطلاعاتی‌اند.</footer>
@@ -58,14 +58,15 @@ code{direction:ltr;display:inline-block;background:#152a40;border-radius:7px;pad
 'use strict';
 const $ = id => document.getElementById(id);
 const format = n => new Intl.NumberFormat('fa-IR').format(n);
-let url = './data/dollar.json', nextAt = 0, busy=false, lastPayload=null;
+let url = "https://efibfevyiepkwpnobaro.supabase.co/rest/v1/dolor_usd_rate?select=code,price_irr,price_toman,source,market_date,market_time,fetched_at,stale&code=eq.USD_IRR_FREE&limit=1", nextAt = 0, busy=false, lastPayload=null;
+const DOLOR_PUBLIC_KEY = "sb_publishable_zbEGYX6DGhjFRQf6FWiIWQ_IdYj84nW";
 async function setup(){
   try {
     const conf = await fetch('./config.json?x='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():{});
     if(conf.live_api && /^https:\/\//.test(conf.live_api)){
       url=conf.live_api;
-      $('json-link').href=url;
-      $('json-link').textContent='مشاهده API لحظه‌ای';
+      $('json-link').href='https://github.com/gptyar-web/dolor#api';
+      $('json-link').textContent='مستندات API';
     }
   } catch (_){}
   await update();
@@ -77,9 +78,10 @@ async function update(){
  $('reload').disabled=true;
  try {
    const q=(url.includes('?')?'&':'?')+'t='+Date.now();
-   const res=await fetch(url+q,{cache:'no-store',headers:{Accept:'application/json'}});
+   const res=await fetch(url+q,{cache:'no-store',headers:{Accept:'application/json',apikey:DOLOR_PUBLIC_KEY}});
    if(!res.ok)throw new Error('HTTP '+res.status);
-   const data=await res.json();
+   const payload=await res.json();
+   const data=Array.isArray(payload)?payload[0]:payload;
    if(!Number.isSafeInteger(data.price_irr)||data.price_irr<=0)throw new Error('invalid rate');
    lastPayload=data;
    $('irr').innerHTML=format(data.price_irr)+' <small>ریال</small>';
