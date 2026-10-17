@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b172b">
+<title>قیمت دلار آزاد تهران | Dolor</title>
+<meta name="description" content="نمایش آنلاین قیمت دلار بازار آزاد تهران به تومان و ریال با ذکر زمان ثبت و منبع داده">
+<style>
+:root{color-scheme:dark;--bg:#0a1322;--surface:#101f32;--text:#f3f7ff;--muted:#adbbcf;--line:#28435e;--accent:#7ae5b5;--warn:#efc77a}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 25% 0,#1e4055 0,transparent 48%),var(--bg);min-height:100vh;color:var(--text);font:16px/1.8 Tahoma,"Segoe UI",sans-serif}
+main{width:min(820px,calc(100% - 32px));margin:0 auto;padding:48px 0 60px}
+header{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.brand{font-weight:900;letter-spacing:.08em;font-size:22px;color:var(--accent)}
+.pill{font-size:12px;border:1px solid var(--line);border-radius:99px;padding:6px 14px;color:var(--muted)}
+h1{font-size:clamp(25px,5vw,39px);line-height:1.45;margin:48px 0 8px}
+.subtitle{color:var(--muted);margin-bottom:30px}
+.panel{border:1px solid var(--line);border-radius:24px;background:linear-gradient(140deg,rgba(23,47,69,.92),rgba(11,26,43,.98));padding:clamp(23px,6vw,43px);box-shadow:0 30px 70px #0003}
+.row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.muted{color:var(--muted)}
+.big{font-size:clamp(37px,8vw,75px);font-weight:900;letter-spacing:-.05em;line-height:1.45;direction:ltr;text-align:right;font-variant-numeric:tabular-nums}
+.big small{font-size:20px;font-weight:400;letter-spacing:0;color:var(--muted);margin-right:8px}
+.toman{font-size:21px;font-weight:700;margin:12px 0 26px}
+.status{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--accent)}
+.dot{height:9px;width:9px;border-radius:100%;background:currentColor;box-shadow:0 0 16px currentColor}
+.status.warning{color:var(--warn)}
+.meta{border-top:1px solid var(--line);padding-top:19px;margin-top:20px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 22px}
+.meta b{font-weight:600}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+button,a.link{background:transparent;border:1px solid var(--line);border-radius:12px;color:var(--text);padding:9px 17px;cursor:pointer;text-decoration:none;font:inherit;font-size:14px}
+button:hover,a.link:hover{border-color:var(--accent)}
+.explain{font-size:13px;color:var(--muted);line-height:2.1;margin:25px 4px}
+a{color:#a6e8fc}footer{border-top:1px solid var(--line);padding-top:20px;color:var(--muted);font-size:12px;margin-top:38px}
+code{direction:ltr;display:inline-block;background:#152a40;border-radius:7px;padding:0 6px}
+@media(max-width:480px){.meta{grid-template-columns:1fr}.big small{display:block}main{padding-top:24px}h1{margin-top:30px}}
+</style>
+</head>
+<body><main>
+<header><div class="brand">DOLOR <span style="font-weight:400;font-size:13px;color:#adbbcf">/ دلار آزاد تهران</span></div><span class="pill">نمایش رایگان نرخ بازار</span></header>
+<h1>قیمت دلار بازار آزاد تهران</h1>
+<p class="subtitle">نرخ هر ۱ دلار آمریکا به ریال و تومان ایران، همراه با زمان آخرین داده معتبر.</p>
+<section class="panel" aria-live="polite">
+<div class="row"><strong class="muted">قیمت یک دلار به ریال</strong><span id="status" class="status warning"><span class="dot"></span>در حال دریافت داده...</span></div>
+<div id="irr" class="big">— <small>ریال</small></div>
+<div id="toman" class="toman muted">— تومان</div>
+<div class="meta">
+<div><span class="muted">زمان نرخ در بازار:</span> <b id="market-time">—</b></div>
+<div><span class="muted">آخرین دریافت موفق:</span> <b id="fetched">—</b></div>
+<div><span class="muted">منبع:</span> <b id="source">—</b></div>
+<div><span class="muted">بازبینی بعدی:</span> <b id="next">—</b></div>
+</div>
+<div class="actions"><button id="reload" type="button">↻ بروزرسانی نمایش</button><a class="link" href="./data/dollar.json" id="json-link">مشاهده JSON عمومی</a></div>
+</section>
+<p class="explain">قیمت‌ها ممکن است در ساعات تعطیلی بازار تغییر نکنند. زمان «بازبینی» با زمان «تغییر واقعی نرخ» متفاوت است. این صفحه قیمت غیرواقعی جایگزین نمی‌کند؛ اگر داده‌ای نرسد وضعیت خطا نشان داده می‌شود.</p>
+<footer>منابع داده: <a href="https://nerkh.jahankhahan.shop/developers" rel="noopener">نرخ‌سنج</a> و در حالت پشتیبان <a href="https://iran-market.github.io/" rel="noopener">Iran Market Data</a>. این پروژه وابسته به آن‌ها نیست و نرخ‌ها صرفاً اطلاعاتی‌اند.</footer>
+</main>
+<script>
+'use strict';
+const $ = id => document.getElementById(id);
+const format = n => new Intl.NumberFormat('fa-IR').format(n);
+let url = './data/dollar.json', nextAt = 0, busy=false, lastPayload=null;
+async function setup(){
+  try {
+    const conf = await fetch('./config.json?x='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():{});
+    if(conf.live_api && /^https:\/\//.test(conf.live_api)){
+      url=conf.live_api;
+      $('json-link').href=url;
+      $('json-link').textContent='مشاهده API لحظه‌ای';
+    }
+  } catch (_){}
+  await update();
+  setInterval(update,60000);
+  setInterval(()=>{$('next').textContent = nextAt ? format(Math.max(0,Math.ceil((nextAt-Date.now())/1000)))+' ثانیه' : '—'},1000);
+}
+async function update(){
+ if(busy)return; busy=true; nextAt=Date.now()+60000;
+ $('reload').disabled=true;
+ try {
+   const q=(url.includes('?')?'&':'?')+'t='+Date.now();
+   const res=await fetch(url+q,{cache:'no-store',headers:{Accept:'application/json'}});
+   if(!res.ok)throw new Error('HTTP '+res.status);
+   const data=await res.json();
+   if(!Number.isSafeInteger(data.price_irr)||data.price_irr<=0)throw new Error('invalid rate');
+   lastPayload=data;
+   $('irr').innerHTML=format(data.price_irr)+' <small>ریال</small>';
+   $('toman').textContent=format(data.price_toman ?? Math.round(data.price_irr/10))+' تومان';
+   $('market-time').textContent=[data.market_date,data.market_time].filter(Boolean).join(' — ')||'نامشخص';
+   $('fetched').textContent=data.fetched_at ? new Date(data.fetched_at).toLocaleString('fa-IR',{timeZone:'Asia/Tehran',dateStyle:'short',timeStyle:'short'})+' تهران':'نامشخص';
+   $('source').textContent=data.source === 'nerkhsanj'?'نرخ‌سنج':data.source === 'iran-market'?'Iran Market Data':data.source||'نامشخص';
+   const fetchedMs=Date.parse(data.fetched_at||'');
+   const old=Number.isFinite(fetchedMs)&&Date.now()-fetchedMs>12*60*1000;
+   const stale=data.stale===true||old||!data.market_time;
+   const state=$('status');
+   state.className='status'+(stale?' warning':'');
+   state.innerHTML='<span class="dot"></span>'+(stale?'نرخ آخرین ثبت / احتمال تأخیر':'اطلاعات دریافت شد');
+ } catch(err){
+   $('status').className='status warning';
+   $('status').innerHTML='<span class="dot"></span>'+(lastPayload?'ارتباط قطع؛ آخرین نرخ حفظ شد':'در حال حاضر داده معتبر موجود نیست');
+   console.warn('Dollar data could not be read',err);
+ }
+ finally {$('reload').disabled=false;busy=false}
+}
+$('reload').addEventListener('click',update);
+setup();
+</script></body></html>
