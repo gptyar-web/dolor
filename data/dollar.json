@@ -1,0 +1,10 @@
+{
+  "status": "unavailable",
+  "price_irr": null,
+  "price_toman": null,
+  "source": null,
+  "market_date": null,
+  "market_time": null,
+  "fetched_at": null,
+  "stale": true
+}
